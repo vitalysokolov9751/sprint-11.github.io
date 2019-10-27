@@ -8,7 +8,7 @@
             "type": "chrome",
             "request": "launch",
             "name": "Launch Chrome against localhost",
-            "url": "file:///C:/Users/Liudmila/Documents/praktikum/sprint-9-js-startkit/index.html",
+            "url": "C:/Users/Liudmila/Documents/praktikum/sprint-11-js-startkit/vitalysokolov9751.sprint-11-js-startkit.github.io/src/index.html",
             "webRoot": "${workspaceFolder}"
         }
     ]

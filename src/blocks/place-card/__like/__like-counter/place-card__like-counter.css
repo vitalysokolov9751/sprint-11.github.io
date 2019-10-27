@@ -1,0 +1,13 @@
+.place-card__like-counter {
+    color: black;
+    font-size: 13px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 16px;
+    background-color: transparent;
+    border: none;
+    width: 9px;
+    height: 13px;
+    margin-top: 3px;
+    margin-bottom: 0px;
+  }
