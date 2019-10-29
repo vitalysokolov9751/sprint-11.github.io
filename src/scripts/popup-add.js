@@ -1,5 +1,8 @@
-import {userInfoName, api} from './script.js';
+import {api} from './script.js';
+import {userInfoName} from './popup-edit.js'
 import {PopupWithValidation} from './popup-with-validation.js';
+import {Card} from './card.js';
+import {cardList} from './script.js';
 
 export class PopupAdd extends PopupWithValidation {
   constructor(container, button) {

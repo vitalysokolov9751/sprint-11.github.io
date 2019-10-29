@@ -1,4 +1,4 @@
-import {userInfoName, userInfoAbout} from './script.js';
+import {userInfoName, userInfoAbout} from './popup-edit';
 
 export class Api {
     constructor(options) {
@@ -113,14 +113,14 @@ export class Api {
             })
     }
 
-    addLike(id, isLiked) {
+    addLike(id) {
         fetch(`${this.options.baseUrl}/cards/like/${id}`, {
-            method: 'PUT',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            }
-        })        
+                method: 'PUT',
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                }
+            })        
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -132,14 +132,14 @@ export class Api {
             })
     }
 
-    removeLike(id, isLiked) {
+    removeLike(id) {
         fetch(`${this.options.baseUrl}/cards/like/${id}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            }
-        })        
+                method: 'DELETE',
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                }
+            })        
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -154,14 +154,14 @@ export class Api {
     saveAvatar(avatar, container) {
         fetch(`${this.options.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                avatar: avatar
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    avatar: avatar
+                })
             })
-        })
             .then(res => {
                if (res.ok) {
                  return res.json();

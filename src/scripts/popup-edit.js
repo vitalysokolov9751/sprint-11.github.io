@@ -1,5 +1,7 @@
-import {userInfoName, userInfoAbout, api} from './script.js';
+import {api} from './script.js';
 import {PopupWithValidation} from './popup-with-validation.js';
+export const userInfoName = document.querySelector('.user-info__name');
+export const userInfoAbout = document.querySelector('.user-info__about');
 
 export class PopupEdit extends PopupWithValidation {
     constructor(container, button) {

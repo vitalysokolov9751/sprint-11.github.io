@@ -1,4 +1,5 @@
-import {userInfoName, api} from './script.js';
+import {api} from './script.js';
+import {userInfoName} from './popup-edit.js';
 
 export class Card {
     constructor(name, link, isLiked, likeCounter, id, ownerName) {

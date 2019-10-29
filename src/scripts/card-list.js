@@ -1,4 +1,4 @@
-import {userInfoName} from './script.js';
+import {userInfoName} from './popup-edit.js';
 import {Card} from './card.js';
 import {PopupPicture} from './popup-picture.js';
   
