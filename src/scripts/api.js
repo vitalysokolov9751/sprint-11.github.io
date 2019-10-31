@@ -1,8 +1,17 @@
 import {userInfoName, userInfoAbout} from './popup-edit';
+import {CardList} from './card-list.js';
+const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/cohort3' : 'https://praktikum.tk/cohort3';
+const authorizationKey = '23b56799-22ee-419e-83e7-d94b3fd17097';
 
-export class Api {
-    constructor(options) {
-        this.options = options;
+class Api {
+    constructor() {
+        this.options = {
+            baseUrl: serverUrl,
+            headers: {
+              authorization: authorizationKey,
+              'Content-Type': 'application/json'
+            }
+        }
     }
   
     getUserInfo() {
@@ -70,7 +79,7 @@ export class Api {
     }
     
     saveCard(name, link, container) {
-        fetch(`${this.options.baseUrl}/cards`, {
+        return fetch(`${this.options.baseUrl}/cards`, {
             method: 'POST',
             headers: {
                 authorization: this.options.headers.authorization,
@@ -80,37 +89,39 @@ export class Api {
                 name: name,
                 link: link
             })
-        })        
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                  }
-                  return Promise.reject(`Ошибка: ${res.status}`);
-               })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => {
-                container.classList.remove('popup_is-opened');
-            });
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            else {
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }
+        })
+        .finally(() => {
+            container.classList.remove('popup_is-opened');
+        })
     }
 
-    deleteCard(id) {
-        fetch(`${this.options.baseUrl}/cards/${id}`, {
+    deleteCard(container) {
+        fetch(`${this.options.baseUrl}/cards/${container.id}`, {
             method: 'DELETE',
             headers: {
                 authorization: this.options.headers.authorization,
                 'Content-Type': 'application/json'
             }
         })        
-            .then((res) => {
-                if (!res.ok) {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                  }
-               })
-            .catch((err) => {
-                console.log(err);
-            })
+        .then((res) => {
+            if (res.ok) {
+                cardList.container.removeChild(container);
+            }
+            else {
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
     addLike(id) {
@@ -179,3 +190,6 @@ export class Api {
             });
     }
 }
+
+export const api = new Api();
+export const cardList = new CardList();

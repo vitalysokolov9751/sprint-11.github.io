@@ -1,4 +1,4 @@
-import {api} from './script.js';
+import {api} from './api.js';
 import {PopupWithValidation} from './popup-with-validation.js';
 
 export class PopupAvatar extends PopupWithValidation {

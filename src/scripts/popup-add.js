@@ -1,8 +1,7 @@
-import {api} from './script.js';
+import {api, cardList} from './api.js';
 import {userInfoName} from './popup-edit.js'
 import {PopupWithValidation} from './popup-with-validation.js';
 import {Card} from './card.js';
-import {cardList} from './script.js';
 
 export class PopupAdd extends PopupWithValidation {
   constructor(container, button) {
@@ -25,9 +24,10 @@ export class PopupAdd extends PopupWithValidation {
   submit() {
     event.preventDefault();
     const { name, link } = this.form.elements;
-    const { placeCard } = new Card(name.value, link.value, 0, '', userInfoName.textContent);
-    cardList.container.appendChild(placeCard);
     this.submitButton.textContent = 'Загрузка...';
-    api.saveCard(name.value, link.value, this.container);
+    api.saveCard(name.value, link.value, this.container).then(res => {
+        const { placeCard } = new Card(name.value, link.value, 0, '', res._id, userInfoName.textContent);
+        cardList.container.appendChild(placeCard);
+    })
   }
 }

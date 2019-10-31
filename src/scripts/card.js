@@ -1,5 +1,5 @@
-import {api} from './script.js';
 import {userInfoName} from './popup-edit.js';
+import {api} from './api.js';
 
 export class Card {
     constructor(name, link, isLiked, likeCounter, id, ownerName) {
@@ -80,8 +80,7 @@ export class Card {
     remove(event) {
       if (event.target.classList.contains('place-card__delete-icon')) {
         if (window.confirm("Вы действительно хотите удалить эту карточку?")) {
-          api.deleteCard(event.target.closest(".place-card").id); 
-          cardList.container.removeChild(event.target.closest(".place-card"));
+          api.deleteCard(event.target.closest(".place-card")); 
         }
       }
     }

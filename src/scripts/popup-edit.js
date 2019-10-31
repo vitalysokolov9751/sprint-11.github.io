@@ -1,4 +1,4 @@
-import {api} from './script.js';
+import {api} from './api.js';
 import {PopupWithValidation} from './popup-with-validation.js';
 export const userInfoName = document.querySelector('.user-info__name');
 export const userInfoAbout = document.querySelector('.user-info__about');
