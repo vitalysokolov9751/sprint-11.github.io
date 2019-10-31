@@ -1,4 +1,7 @@
-  class Card {
+import {userInfoName} from './popup-edit.js';
+import {api} from './api.js';
+
+export class Card {
     constructor(name, link, isLiked, likeCounter, id, ownerName) {
       this.name = name;
       this.link = link;
@@ -77,35 +80,8 @@
     remove(event) {
       if (event.target.classList.contains('place-card__delete-icon')) {
         if (window.confirm("Вы действительно хотите удалить эту карточку?")) {
-          api.deleteCard(event.target.closest(".place-card").id); 
-          cardList.container.removeChild(event.target.closest(".place-card"));
+          api.deleteCard(event.target.closest(".place-card")); 
         }
       }
     }
-  }
-  
-  class CardList {
-    constructor(container, initialCards) {
-      this.container = container;
-      this.initialCards = initialCards;
-      this.render();
-    }
-  
-    addCard(name, link, isLiked, likeCounter, id, ownerName) {
-      const { placeCard } = new Card(name, link, isLiked, likeCounter, id, ownerName);
-      this.container.appendChild(placeCard);
-      const image = placeCard.querySelector('.place-card__image');
-      image.addEventListener('click', (event) => {
-        if (!event.target.classList.contains('place-card__delete-icon')) {
-          new PopupPicture(document.querySelector('.popup__picture'), image);
-        }
-      });
-    }
-  
-    render() {
-      this.initialCards.forEach(({name, link, likes, _id, owner}) => 
-        this.addCard(name, link, likes.find((element) => { 
-          return (element.name === userInfoName.textContent) }) === undefined ? false : true,
-        likes.length, _id, owner.name));
-    }
-  }
+}

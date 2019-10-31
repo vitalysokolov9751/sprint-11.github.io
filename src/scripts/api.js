@@ -1,6 +1,17 @@
+import {userInfoName, userInfoAbout} from './popup-edit';
+import {CardList} from './card-list.js';
+const serverUrl = NODE_ENV === 'development' ? 'http://praktikum.tk/cohort3' : 'https://praktikum.tk/cohort3';
+const authorizationKey = '23b56799-22ee-419e-83e7-d94b3fd17097';
+
 class Api {
-    constructor(options) {
-        this.options = options;
+    constructor() {
+        this.options = {
+            baseUrl: serverUrl,
+            headers: {
+              authorization: authorizationKey,
+              'Content-Type': 'application/json'
+            }
+        }
     }
   
     getUserInfo() {
@@ -68,7 +79,7 @@ class Api {
     }
     
     saveCard(name, link, container) {
-        fetch(`${this.options.baseUrl}/cards`, {
+        return fetch(`${this.options.baseUrl}/cards`, {
             method: 'POST',
             headers: {
                 authorization: this.options.headers.authorization,
@@ -78,47 +89,49 @@ class Api {
                 name: name,
                 link: link
             })
-        })        
-            .then((res) => {
-                if (res.ok) {
-                    return res.json();
-                  }
-                  return Promise.reject(`Ошибка: ${res.status}`);
-               })
-            .catch((err) => {
-                console.log(err);
-            })
-            .finally(() => {
-                container.classList.remove('popup_is-opened');
-            });
+        })
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+            else {
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }
+        })
+        .finally(() => {
+            container.classList.remove('popup_is-opened');
+        })
     }
 
-    deleteCard(id) {
-        fetch(`${this.options.baseUrl}/cards/${id}`, {
+    deleteCard(container) {
+        fetch(`${this.options.baseUrl}/cards/${container.id}`, {
             method: 'DELETE',
             headers: {
                 authorization: this.options.headers.authorization,
                 'Content-Type': 'application/json'
             }
         })        
-            .then((res) => {
-                if (!res.ok) {
-                    return Promise.reject(`Ошибка: ${res.status}`);
-                  }
-               })
-            .catch((err) => {
-                console.log(err);
-            })
+        .then((res) => {
+            if (res.ok) {
+                cardList.container.removeChild(container);
+            }
+            else {
+                return Promise.reject(`Ошибка: ${res.status}`);
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        })
     }
 
-    addLike(id, isLiked) {
+    addLike(id) {
         fetch(`${this.options.baseUrl}/cards/like/${id}`, {
-            method: 'PUT',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            }
-        })        
+                method: 'PUT',
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                }
+            })        
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -130,14 +143,14 @@ class Api {
             })
     }
 
-    removeLike(id, isLiked) {
+    removeLike(id) {
         fetch(`${this.options.baseUrl}/cards/like/${id}`, {
-            method: 'DELETE',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            }
-        })        
+                method: 'DELETE',
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                }
+            })        
             .then((res) => {
                 if (res.ok) {
                     return res.json();
@@ -152,14 +165,14 @@ class Api {
     saveAvatar(avatar, container) {
         fetch(`${this.options.baseUrl}/users/me/avatar`, {
             method: 'PATCH',
-            headers: {
-                authorization: this.options.headers.authorization,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                avatar: avatar
+                headers: {
+                    authorization: this.options.headers.authorization,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    avatar: avatar
+                })
             })
-        })
             .then(res => {
                if (res.ok) {
                  return res.json();
@@ -177,3 +190,6 @@ class Api {
             });
     }
 }
+
+export const api = new Api();
+export const cardList = new CardList();
